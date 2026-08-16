@@ -2,7 +2,3 @@ plans/
 .env
 .spotify_cache
 
-#client data and secret keys taken from spotify developer dashboard, used to access Spotify API
-SPOTIFY_CLIENT_ID=683d81fd6526451db096e27fc9334090
-SPOTIFY_CLIENT_SECRET=73f1c82b98d1405cbd9907e60498f760
-SPOTIFY_REDIRECT_URI=http://127.0.0.1:8888/callback

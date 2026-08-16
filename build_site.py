@@ -1,14 +1,13 @@
 import json
 import base64
 from io import BytesIO
+from pydoc import html
 
 import matplotlib
 matplotlib.use("agg") 
 import matplotlib.pyplot as plt
 
-from flask import Flask
 
-app = Flask(__name__)
 
 #reading spotify_data.json file
 def load_data():
@@ -53,11 +52,9 @@ def make_listening_time_chart(data):
     ax.set_xticks(hours)
     fig.tight_layout()
 
-    buf = BytesIO()
-    plt.savefig(buf, format="png")
+
+    plt.savefig("docs/time_chart.png")
     plt.close(fig)
-    buf.seek(0)
-    return base64.b64encode(buf.getvalue()).decode("utf-8")
 
 #comparing short term vs long term top artists
 def get_comparison_stat(data):
@@ -67,16 +64,18 @@ def get_comparison_stat(data):
     return len(comparison), comparison
 
 
-@app.route("/")
-def home():
+
+def build():
+    import os
+    os.makedirs("docs", exist_ok=True)
+    
     data = load_data()
     artists_list = make_top_artists_list_html(data)
-    time_chart = make_listening_time_chart(data)
     short_term_list = make_top_artists_list_html(data, time_range="short_term")
     comparison_count, comparison_names = get_comparison_stat(data)
 
-    return f"""
-    <html>
+    make_listening_time_chart(data)
+    html = f"""
         <head><title>My Spotify Listening Explorer</title></head>
         <style>
                 body {{
@@ -100,9 +99,9 @@ def home():
             <br>
 
             <h2>Listening Activity</h2>
-            <img src="data:image/png;base64,{time_chart}" />
+            <img src="time_chart.png" />
             <br>
-            
+
             <h2>Short term vs Long term (Short Term)</h2>
             <p>
                 <strong>Comparison:</strong> {comparison_count} artists appear in both lists.
@@ -121,5 +120,10 @@ def home():
     </html>
     """
 
+    with open("docs/index.html", "w") as f:
+            f.write(html)
+
+            print("Site built into /docs")
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    build()

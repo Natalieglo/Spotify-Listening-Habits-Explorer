@@ -1,0 +1,4 @@
+#apps needed to run
+flask
+matplotlib
+gunicorn

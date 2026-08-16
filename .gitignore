@@ -1,4 +1,4 @@
 plans/
 .env
 .spotify_cache
-
+venv/

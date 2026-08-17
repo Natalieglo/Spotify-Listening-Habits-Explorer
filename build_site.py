@@ -65,6 +65,19 @@ def get_comparison_stat(data):
     comparison = short_names & medium_names & long_names  #intersection = names in both
     return len(comparison), comparison
 
+#choosing 2 time periods and comparing artists from these
+def get_artist_comparison(data, range1, range2):
+    artists1 = {
+        a["name"]
+        for a in data["top_artists"][range1][:10]
+    }
+
+    artists2 = {
+        a["name"]
+        for a in data["top_artists"][range2][:10]
+    }
+
+    return sorted(artists1 & artists2)
 
 
 def build():
@@ -76,7 +89,12 @@ def build():
     short_term_list = make_top_artists_list_html(data, time_range="short_term")
     medium_term_list = make_top_artists_list_html(data, time_range="medium_term")
     long_term_list = make_top_artists_list_html(data, time_range="long_term")
-    print(long_term_list)    
+    print(long_term_list)
+
+    short_artists = [a["name"] for a in data["top_artists"]["short_term"][:10]]
+    medium_artists = [a["name"] for a in data["top_artists"]["medium_term"][:10]]
+    long_artists = [a["name"] for a in data["top_artists"]["long_term"][:10]]   
+
     comparison_count, comparison_names = get_comparison_stat(data)
 
     make_listening_time_chart(data)
@@ -140,19 +158,80 @@ def build():
                 <div id="long-term" style="display: none;">
                     {long_term_list}
                 </div>
-            
-                <p>{comparison_count} artist(s) appear in both</p>
 
-                #java script
+                <p>Total comparison: {comparison_count} artist(s) appear in both</p>
+                
+                <h2>Compare Time Ranges</h2>
+
+                <div style="margin-bottom: 20px;">
+                    <select id="compare-one"
+                        style="padding: 8px 12px; border-radius: 20px; margin-right: 10px;">
+                        <option value="short-term">Last 4 Weeks</option>
+                        <option value="medium-term">Last 6 Months</option>
+                        <option value="long-term">All-Time</option>
+                    </select>
+
+                    <select id="compare-two"
+                        style="padding: 8px 12px; border-radius: 20px; margin-right: 10px;">
+                        <option value="medium-term">Last 6 Months</option>
+                        <option value="short-term">Last 4 Weeks</option>
+                        <option value="long-term">All-Time</option>
+                    </select>
+
+                    <button onclick="compareArtists()"
+                        style="padding: 8px 16px; background: #1DB954; color: white; border: none; border-radius: 20px; cursor: pointer;">
+                        Compare
+                    </button>
+                </div>
+
+                <div id="comparison-result"></div>
+            
+            
                 <script>
+                    const artistLists = {{
+                        "short-term": {json.dumps(short_artists)},
+                        "medium-term": {json.dumps(medium_artists)},
+                        "long-term": {json.dumps(long_artists)}
+                    }};
+
                     function showList(which) {{
                         document.getElementById('short-term').style.display = (which === 'short-term') ? 'block' : 'none';
                         document.getElementById('medium-term').style.display = (which === 'medium-term') ? 'block' : 'none';
                         document.getElementById('long-term').style.display = (which === 'long-term') ? 'block' : 'none';
                         document.getElementById('short-button').style.background = (which === 'short-term') ? '#1DB954' : '#333';
-                        document.getElementById('medium-button').style.background = (which === 'medium-term') ? '#1DB954' : '#333';
+                        document.getElementById('medium-button').style.background = (which === 'medium-term') ? '#1DB954' : '#333'; 
                         document.getElementById('long-button').style.background = (which === 'long-term') ? '#1DB954' : '#333';
-   
+                    }}
+
+                    function compareArtists() {{
+                        const rangeOne = document.getElementById('compare-one').value;
+                        const rangeTwo = document.getElementById('compare-two').value;
+
+                        const artistsOne = artistLists[rangeOne];
+                        const artistsTwo = artistLists[rangeTwo];
+
+                        const sharedArtists = artistsOne.filter(artist => artistsTwo.includes(artist)
+                        );
+
+                        const result = document.getElementById('comparison-result');
+
+                        if (sharedArtists.length === 0) {{
+                            result.innerHTML = "<p>No artists appear in both top 10 lists.</p>";
+                            return;
+                        }}
+
+                        result.innerHTML = `
+                            <p><strong>${{sharedArtists.length}} artist(s) appear in both:</strong></p>
+                            <ul style="
+                                list-style: none;
+                                padding: 0;
+                                line-height: 1.8;
+                            ">
+                                ${{sharedArtists.map((artist, index) =>
+                                    `<li>${{index + 1}}. ${{artist}}</li>`
+                                ).join('')}}
+                            </ul>
+                        `;
                     }}
                 </script>
             </body>

@@ -1,15 +1,21 @@
 # Spotify Listening Explorer
 
 A small Python tool that pulls my own Spotify listening data and builds a static, interactive-feeling dashboard showing listening patterns:
-- top artists, how recent taste compares to all-time favourites, and what time of day I listen most.
+- top artists, how recent taste compares to medium and all-time favourites, and what time of day I listen most.
 
 
 ## What it does
 
 - Logs into Spotify (my own account) using OAuth and pulls top tracks, top artists, and recently played tracks via the Spotify Web API
-- Compares "last 4 weeks" vs. "all-time" top artists and shows the overlap between them
-- Builds a chart of listening activity by hour of day, using real timestamps from recently played tracks
-- Generates a static site from that data — no live server needed to view it
+- Shows my top artists across three time ranges:
+  - **Last 4 Weeks**
+  - **Last 6 Months**
+  - **All-Time**
+- Lets users switch between the three time ranges using interactive buttons
+- Highlights the currently selected time range using Spotify's green colour
+- Compares the top 10 artists across all three time ranges and shows how many appear in all three
+- Builds a chart showing listening activity by hour of day using timestamps from recently played tracks
+- Generates a static website from the collected data — no live server is needed to view it
 
 ## How it works
 
@@ -22,9 +28,8 @@ Splitting it this way means the deployed site never needs API credentials and lo
 
 ## Running it locally
 
-```bash
 pip install -r requirements.txt
-```
+
 
 Create a `.env` file in the project root:
 ```
@@ -36,7 +41,7 @@ SPOTIFY_REDIRECT_URI=http://127.0.0.1:8888/callback
 [developer.spotify.com/dashboard](https://developer.spotify.com/dashboard))
 
 Then:
-```bash
+
 python fetch_data.py    # pulls your data, opens a browser to log in
 python build_site.py    # builds the static site into /docs
 ```
@@ -44,26 +49,24 @@ Open `docs/index.html` in a browser to preview it locally.
 
 ## Known limitations
 
-- **Genre and popularity data aren't used.** Spotify deprecated the
-  `audio-features` endpoint entirely in late 2024 and stripped the
-  `popularity` field (and unreliably returns `genres`) in a Feb 2026
-  update. Rather than fake numbers where real ones no longer exist, the
-  charts were redesigned around data Spotify still reliably provides —
-  which is why "top artists" is shown as a ranked list, not a bar chart
-  with no real value to measure.
-- **Listening-time chart uses UTC**, not local time — a fix for a future
-  version.
-- **Data is a snapshot**, not live — re-run both scripts to refresh it.
+- **Genre and popularity data aren't used.** Spotify removed `audio-features` entirely and stripped the `popularity` field (and unreliably returns `genres`). Rather than fake numbers where real ones no longer exist, the charts were redesigned around data Spotify still reliably provides - which is why "top artists" is shown as a ranked list, not a bar chart with no real value to measure.
+- **Listening-time chart uses UTC**, not local time - a fix for a future version.
+- **Data is a snapshot**, not live - re-run both scripts to refresh it.
+- **Static dashboard**: Because the deployed site uses pre-generated data, visitors cannot currently log in with their own Spotify account and view their own statistics
 
 ## What's next
 
-- Convert the hour-of-day chart to local time
-- Add an optional "log in with your own Spotify" view so visitors can see
-  their own stats (dropped from this version to hit a tighter timeline —
-  the OAuth login flow itself already works, just isn't wired into the
-  static site yet)
-- Automate data refresh on a schedule via GitHub Actions
+- Convert the hour-of-day chart from UTC to local time
+- Add more listening-pattern visualisations
+- Add an optional "Log in with your own Spotify" experience so visitors can explore their own listening data
+- Automate data collection refresh and website updates button using GitHub Actions
+- Expand the dashboard with additional statistics as Spotify's API makes more data available
+
 
 ## Stack
 
-Python, Spotipy, Matplotlib, static HTML/CSS, deployed via GitHub Pages.
+- Python
+- Spotipy - Spotify Web API wrapper
+- Matplotlib - data visualisation
+- HTML/CSS/JavaScript - static interactive dashboard
+- GitHub Pages - deployment

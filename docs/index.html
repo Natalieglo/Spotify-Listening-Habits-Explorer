@@ -93,19 +93,80 @@
 
    
                 </div>
-            
-                <p>0 artist(s) appear in both</p>
 
-                #java script
+                <p>Total comparison: 0 artist(s) appear in both</p>
+                
+                <h2>Compare Time Ranges</h2>
+
+                <div style="margin-bottom: 20px;">
+                    <select id="compare-one"
+                        style="padding: 8px 12px; border-radius: 20px; margin-right: 10px;">
+                        <option value="short-term">Last 4 Weeks</option>
+                        <option value="medium-term">Last 6 Months</option>
+                        <option value="long-term">All-Time</option>
+                    </select>
+
+                    <select id="compare-two"
+                        style="padding: 8px 12px; border-radius: 20px; margin-right: 10px;">
+                        <option value="medium-term">Last 6 Months</option>
+                        <option value="short-term">Last 4 Weeks</option>
+                        <option value="long-term">All-Time</option>
+                    </select>
+
+                    <button onclick="compareArtists()"
+                        style="padding: 8px 16px; background: #1DB954; color: white; border: none; border-radius: 20px; cursor: pointer;">
+                        Compare
+                    </button>
+                </div>
+
+                <div id="comparison-result"></div>
+            
+            
                 <script>
+                    const artistLists = {
+                        "short-term": ["Ariana Grande", "Stereophonics", "Lenny Kravitz", "KATSEYE", "Evanescence", "The Cardigans", "Clairo", "Arlo Parks", "Car Seat Headrest", "Khruangbin"],
+                        "medium-term": ["beabadoobee", "Mitski", "Ariana Grande", "Jhen\u00e9 Aiko", "Stereophonics", "Lana Del Rey", "Ichiko Aoba", "Lizzy McAlpine", "Elliott Smith", "Deftones"],
+                        "long-term": ["beabadoobee", "Mitski", "Lana Del Rey", "The Beatles", "Japanese Breakfast", "Lamp", "Ichiko Aoba", "PinkPantheress", "Elliott Smith", "Czerwone Gitary"]
+                    };
+
                     function showList(which) {
                         document.getElementById('short-term').style.display = (which === 'short-term') ? 'block' : 'none';
                         document.getElementById('medium-term').style.display = (which === 'medium-term') ? 'block' : 'none';
                         document.getElementById('long-term').style.display = (which === 'long-term') ? 'block' : 'none';
                         document.getElementById('short-button').style.background = (which === 'short-term') ? '#1DB954' : '#333';
-                        document.getElementById('medium-button').style.background = (which === 'medium-term') ? '#1DB954' : '#333';
+                        document.getElementById('medium-button').style.background = (which === 'medium-term') ? '#1DB954' : '#333'; 
                         document.getElementById('long-button').style.background = (which === 'long-term') ? '#1DB954' : '#333';
-   
+                    }
+
+                    function compareArtists() {
+                        const rangeOne = document.getElementById('compare-one').value;
+                        const rangeTwo = document.getElementById('compare-two').value;
+
+                        const artistsOne = artistLists[rangeOne];
+                        const artistsTwo = artistLists[rangeTwo];
+
+                        const sharedArtists = artistsOne.filter(artist => artistsTwo.includes(artist)
+                        );
+
+                        const result = document.getElementById('comparison-result');
+
+                        if (sharedArtists.length === 0) {
+                            result.innerHTML = "<p>No artists appear in both top 10 lists.</p>";
+                            return;
+                        }
+
+                        result.innerHTML = `
+                            <p><strong>${sharedArtists.length} artist(s) appear in both:</strong></p>
+                            <ul style="
+                                list-style: none;
+                                padding: 0;
+                                line-height: 1.8;
+                            ">
+                                ${sharedArtists.map((artist, index) =>
+                                    `<li>${index + 1}. ${artist}</li>`
+                                ).join('')}
+                            </ul>
+                        `;
                     }
                 </script>
             </body>

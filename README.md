@@ -6,6 +6,7 @@ A small Python tool that pulls my own Spotify listening data and builds a static
 - Which artists are shared between two selected time ranges
 - What time of day I listen most
 
+Link: https://natalieglo.github.io/Spotify-Listening-Habits-Explorer/
 
 ## What it does
 

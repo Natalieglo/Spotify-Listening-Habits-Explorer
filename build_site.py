@@ -188,6 +188,7 @@ def build():
                 </div>
 
                 <p>{comparison_count} artist(s) appear in all three top 10s</p>
+                <br>
 
                 <h2>Compare Time Ranges</h2>
 
@@ -213,7 +214,7 @@ def build():
                 </div>
 
                 <div id="comparison-result"></div>
-            
+                <br>
                 
                 <h2>Top Tracks</h2>
                 <button id="short-track-button"

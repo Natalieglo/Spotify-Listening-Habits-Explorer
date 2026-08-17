@@ -72,11 +72,11 @@ def build():
     data = load_data()
     artists_list = make_top_artists_list_html(data)
     short_term_list = make_top_artists_list_html(data, time_range="short_term")
-    comparison_count, comparison_names = get_comparison_stat(data)
+    long_term_list = make_top_artists_list_html(data, time_range="long_term")
+        
+    comparison_count = get_comparison_stat(data)
 
     make_listening_time_chart(data)
-
-    joined_names = ", ".join(comparison_names) if comparison_count > 0 else "none"
 
     html = f"""
         <head><title>My Spotify Listening Explorer</title></head>
@@ -119,10 +119,10 @@ def build():
                     {short_term_list}
                 </div>
                 <div id="long-term" style="display: none;">
-                    {artists_list}
+                    {long_term_list}
                 </div>
             
-                <p>{comparison_count} artist(s) appear in both: {joined_names}</p>
+                <p>{comparison_count} artist(s) appear in both</p>
 
 
                 <script>

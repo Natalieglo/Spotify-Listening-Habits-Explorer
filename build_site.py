@@ -29,8 +29,27 @@ def make_top_artists_list_html(data, time_range="long_term"):
     line-height: 1.8;
     ">
         {items}
-
+    </ul>
    """
+
+def make_top_tracks_list_html(data, time_range="short_term"):
+    tracks = data["top_tracks"][time_range][:10]
+
+    items = "".join(
+        f"<li>{i + 1}. {track['name']} — {track['artist']}</li>"
+        for i, track in enumerate(tracks)
+    )
+
+    return f"""
+    <ul style="
+        list-style: none;
+        text-align: center;
+        padding: 0;
+        line-height: 1.8;
+    ">
+        {items}
+    </ul>
+    """
 
 def make_listening_time_chart(data):
     from datetime import datetime
@@ -86,9 +105,16 @@ def build():
     
     data = load_data()
     artists_list = make_top_artists_list_html(data)
+
+    #top artists all time ranges
     short_term_list = make_top_artists_list_html(data, time_range="short_term")
     medium_term_list = make_top_artists_list_html(data, time_range="medium_term")
     long_term_list = make_top_artists_list_html(data, time_range="long_term")
+    #top tracks all time ranges
+    short_term_tracks = make_top_tracks_list_html(data, time_range="short_term")
+    medium_term_tracks = make_top_tracks_list_html(data, time_range="medium_term")
+    long_term_tracks = make_top_tracks_list_html(data, time_range="long_term")
+
     print(long_term_list)
 
     short_artists = [a["name"] for a in data["top_artists"]["short_term"][:10]]
@@ -186,6 +212,39 @@ def build():
 
                 <div id="comparison-result"></div>
             
+                
+                <h2>Top Tracks</h2>
+                <button id="short-track-button"
+                    onclick="showTracks('short-track')"
+                    style="margin-right: 10px; padding: 8px 16px; background: #1DB954; color: white; border: none; border-radius: 20px; cursor: pointer;">
+                    Last 4 Weeks
+                </button>
+
+                <button id="medium-track-button"
+                    onclick="showTracks('medium-track')"
+                    style="margin-right: 10px; padding: 8px 16px; background: #333; color: white; border: none; border-radius: 20px; cursor: pointer;">
+                    Last 6 Months
+                </button>
+
+                <button id="long-track-button"
+                    onclick="showTracks('long-track')"
+                    style="padding: 8px 16px; background: #333; color: white; border: none; border-radius: 20px; cursor: pointer;">
+                    All-Time
+                </button>
+
+                <div id="short-track" style="display: block;">
+                    {short_term_tracks}
+                </div>
+
+                <div id="medium-track" style="display: none;">
+                    {medium_term_tracks}
+                </div>
+
+                <div id="long-track" style="display: none;">
+                    {long_term_tracks}
+                </div>
+
+                <br>
             
                 <script>
                     const artistLists = {{
@@ -233,6 +292,17 @@ def build():
                             </ul>
                         `;
                     }}
+
+                    function showTracks(which) {{
+                        document.getElementById('short-track').style.display = (which === 'short-track') ? 'block' : 'none';
+                        document.getElementById('medium-track').style.display = (which === 'medium-track') ? 'block' : 'none';
+                        document.getElementById('long-track').style.display = (which === 'long-track') ? 'block' : 'none';
+
+                        document.getElementById('short-track-button').style.background = (which === 'short-track') ? '#1DB954' : '#333';
+                        document.getElementById('medium-track-button').style.background = (which === 'medium-track') ? '#1DB954' : '#333';
+                        document.getElementById('long-track-button').style.background = (which === 'long-track') ? '#1DB954' : '#333';
+                    }}
+
                 </script>
             </body>
     </html>

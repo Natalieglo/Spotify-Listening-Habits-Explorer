@@ -36,7 +36,7 @@ def make_top_tracks_list_html(data, time_range="short_term"):
     tracks = data["top_tracks"][time_range][:10]
 
     items = "".join(
-        f"<li>{i + 1}. {track['name']} - {track['artist']}</li>"
+        f"<li>{i + 1}. {track['name']} : {track['artist']}</li>"
         for i, track in enumerate(tracks)
     )
 

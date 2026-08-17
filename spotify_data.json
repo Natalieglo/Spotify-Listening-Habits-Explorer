@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-08-17T17:14:38.904391+00:00",
+  "fetched_at": "2026-08-17T18:39:01.230244+00:00",
   "top_tracks": {
     "short_term": [
       {
@@ -231,12 +231,6 @@
         "album": "Again"
       },
       {
-        "name": "Sun Has Set",
-        "artist": "beabadoobee",
-        "id": "3CnEw0mRAXVlLw36iL0mbe",
-        "album": "Sun Has Set"
-      },
-      {
         "name": "Dani California",
         "artist": "Red Hot Chili Peppers",
         "id": "10Nmj3JCNoMeBQ87uw5j8k",
@@ -265,6 +259,12 @@
         "artist": "Taylor Swift",
         "id": "3zwMVvkBe2qIKDObWgXw4N",
         "album": "evermore (deluxe version)"
+      },
+      {
+        "name": "Sun Has Set",
+        "artist": "beabadoobee",
+        "id": "3CnEw0mRAXVlLw36iL0mbe",
+        "album": "Sun Has Set"
       },
       {
         "name": "Tonight I Might",
@@ -955,10 +955,6 @@
         "genres": null
       },
       {
-        "name": "beabadoobee",
-        "genres": null
-      },
-      {
         "name": "Mitski",
         "genres": null
       },
@@ -968,6 +964,10 @@
       },
       {
         "name": "Fog Lake",
+        "genres": null
+      },
+      {
+        "name": "beabadoobee",
         "genres": null
       },
       {
@@ -1099,15 +1099,15 @@
         "genres": null
       },
       {
-        "name": "Kelela",
-        "genres": null
-      },
-      {
         "name": "Elliott Smith",
         "genres": null
       },
       {
         "name": "Micah Preite",
+        "genres": null
+      },
+      {
+        "name": "Winter",
         "genres": null
       }
     ],

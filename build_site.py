@@ -36,7 +36,7 @@ def make_top_tracks_list_html(data, time_range="short_term"):
     tracks = data["top_tracks"][time_range][:10]
 
     items = "".join(
-        f"<li>{i + 1}. {track['name']} — {track['artist']}</li>"
+        f"<li>{i + 1}. {track['name']} - {track['artist']}</li>"
         for i, track in enumerate(tracks)
     )
 
@@ -186,7 +186,7 @@ def build():
                 </div>
 
                 <p>{comparison_count} artist(s) appear in all three top 10s</p>
-                
+
                 <h2>Compare Time Ranges</h2>
 
                 <div style="margin-bottom: 20px;">

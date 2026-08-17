@@ -74,7 +74,7 @@ def build():
     short_term_list = make_top_artists_list_html(data, time_range="short_term")
     long_term_list = make_top_artists_list_html(data, time_range="long_term")
         
-    comparison_count = get_comparison_stat(data)
+    comparison_count, comparison_names = get_comparison_stat(data)
 
     make_listening_time_chart(data)
 
@@ -112,7 +112,7 @@ def build():
 
                 <div>
                     <button onclick="showList('short-term')" style="margin-right: 10px; padding: 8px 16px; background: #1DB954; color: white; border: none; border-radius: 20px; cursor: pointer;">Last 4 Weeks</button>
-                    <button onclick="showList('long-time')" style="padding: 8px 16px; background: #333; color: white; border: none; border-radius: 20px; cursor: pointer;">All-Time</button>
+                    <button onclick="showList('long-term')" style="padding: 8px 16px; background: #333; color: white; border: none; border-radius: 20px; cursor: pointer;">All-Time</button>
                 </div>
 
                 <div id="short-term" style="display: block;">

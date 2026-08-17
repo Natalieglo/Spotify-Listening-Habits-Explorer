@@ -73,7 +73,7 @@ def build():
     artists_list = make_top_artists_list_html(data)
     short_term_list = make_top_artists_list_html(data, time_range="short_term")
     long_term_list = make_top_artists_list_html(data, time_range="long_term")
-        
+    print(long_term_list)    
     comparison_count, comparison_names = get_comparison_stat(data)
 
     make_listening_time_chart(data)

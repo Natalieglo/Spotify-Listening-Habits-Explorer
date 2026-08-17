@@ -20,27 +20,10 @@
         <body style="font-family: sans-serif; text-align: center; padding: 40px;">
             <h1>My Spotify Listening Explorer</h1>
             <br>
+            <p style="color: #888;">Data last updated: 2026-08-17</p>
+            <br>
 
             <h2>Top Artists</h2>
-            <p style="color: #888;">Data last updated: 2026-08-17</p>
-            
-    <ul style="
-    list-style: none; 
-    text-align: center; 
-    padding: 0;
-    line-height: 1.8;
-    ">
-        <li>1. beabadoobee</li><li>2. Mitski</li><li>3. Lana Del Rey</li><li>4. The Beatles</li><li>5. Japanese Breakfast</li><li>6. Lamp</li><li>7. Ichiko Aoba</li><li>8. PinkPantheress</li><li>9. Elliott Smith</li><li>10. Czerwone Gitary</li>
-    </ul>
-   
-            <br>
-
-            <h2>Listening Activity</h2>
-            <img src="time_chart.png" alt="Listening Chart"/>
-            <br>
-
-            <h2>Short term vs Medium term vs Long term Artists</h2>
-
                 <button id="short-button"
                     onclick="showList('short-term')"
                     style="margin-right: 10px; padding: 8px 16px; background: #1DB954; color: white; border: none; border-radius: 20px; cursor: pointer;">
@@ -182,9 +165,12 @@
     </ul>
     
                 </div>
-
                 <br>
             
+                <h2>Listening Activity</h2>
+                    <img src="time_chart.png" alt="Listening Chart"/>
+                <br>
+
                 <script>
                     const artistLists = {
                         "short-term": ["Ariana Grande", "Stereophonics", "Lenny Kravitz", "KATSEYE", "Evanescence", "The Cardigans", "Clairo", "Arlo Parks", "Car Seat Headrest", "Khruangbin"],

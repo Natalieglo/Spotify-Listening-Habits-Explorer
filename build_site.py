@@ -147,18 +147,10 @@ def build():
         <body style="font-family: sans-serif; text-align: center; padding: 40px;">
             <h1>My Spotify Listening Explorer</h1>
             <br>
+            <p style="color: #888;">Data last updated: {data['fetched_at'][:10]}</p>
+            <br>
 
             <h2>Top Artists</h2>
-            <p style="color: #888;">Data last updated: {data['fetched_at'][:10]}</p>
-            {artists_list}
-            <br>
-
-            <h2>Listening Activity</h2>
-            <img src="time_chart.png" alt="Listening Chart"/>
-            <br>
-
-            <h2>Short term vs Medium term vs Long term Artists</h2>
-
                 <button id="short-button"
                     onclick="showList('short-term')"
                     style="margin-right: 10px; padding: 8px 16px; background: #1DB954; color: white; border: none; border-radius: 20px; cursor: pointer;">
@@ -246,9 +238,12 @@ def build():
                 <div id="long-track" style="display: none;">
                     {long_term_tracks}
                 </div>
-
                 <br>
             
+                <h2>Listening Activity</h2>
+                    <img src="time_chart.png" alt="Listening Chart"/>
+                <br>
+
                 <script>
                     const artistLists = {{
                         "short-term": {json.dumps(short_artists)},

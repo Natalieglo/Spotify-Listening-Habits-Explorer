@@ -37,12 +37,18 @@
             <img src="time_chart.png" alt="Listening Chart"/>
             <br>
 
-            <h2>Short term vs Long term Artists</h2>
+            <h2>Short term vs Medium term vs Long term Artists</h2>
 
                 <button id="short-button"
                     onclick="showList('short-term')"
                     style="margin-right: 10px; padding: 8px 16px; background: #1DB954; color: white; border: none; border-radius: 20px; cursor: pointer;">
                     Last 4 Weeks
+                </button>
+
+                <button id="medium-button"
+                    onclick="showList('medium-term')"
+                    style="margin-right: 10px; padding: 8px 16px; background: #333; color: white; border: none; border-radius: 20px; cursor: pointer;">
+                    Last 6 months
                 </button>
 
                 <button id="long-button"
@@ -60,6 +66,18 @@
     line-height: 1.8;
     ">
         <li>1. Ariana Grande</li><li>2. Stereophonics</li><li>3. Lenny Kravitz</li><li>4. KATSEYE</li><li>5. Evanescence</li><li>6. The Cardigans</li><li>7. Clairo</li><li>8. Arlo Parks</li><li>9. Car Seat Headrest</li><li>10. Khruangbin</li>
+
+   
+                </div>
+                <div id="medium-term" style="display: none;">
+                    
+    <ul style="
+    list-style: none; 
+    text-align: center; 
+    padding: 0;
+    line-height: 1.8;
+    ">
+        <li>1. beabadoobee</li><li>2. Mitski</li><li>3. Ariana Grande</li><li>4. Jhené Aiko</li><li>5. Stereophonics</li><li>6. Lana Del Rey</li><li>7. Ichiko Aoba</li><li>8. Lizzy McAlpine</li><li>9. Elliott Smith</li><li>10. Deftones</li>
 
    
                 </div>
@@ -82,7 +100,12 @@
                 <script>
                     function showList(which) {
                         document.getElementById('short-term').style.display = (which === 'short-term') ? 'block' : 'none';
+                        document.getElementById('medium-term').style.display = (which === 'medium-term') ? 'block' : 'none';
                         document.getElementById('long-term').style.display = (which === 'long-term') ? 'block' : 'none';
+                        document.getElementById('short-button').style.background = (which === 'short-term') ? '#1DB954' : '#333';
+                        document.getElementById('medium-button').style.background = (which === 'medium-term') ? '#1DB954' : '#333';
+                        document.getElementById('long-button').style.background = (which === 'long-term') ? '#1DB954' : '#333';
+   
                     }
                 </script>
             </body>

@@ -1,12 +1,12 @@
 # Spotify Listening Explorer
 
-A small Python tool that pulls my own Spotify listening data and builds a static, interactive-feeling dashboard showing listening patterns — top artists, how recent taste compares to all-time favourites, and what time
-of day I listen most.
+A small Python tool that pulls my own Spotify listening data and builds a static, interactive-feeling dashboard showing listening patterns:
+- top artists, how recent taste compares to all-time favourites, and what time of day I listen most.
 
 
 ## What it does
 
-- Logs into Spotify (my own account) and pulls top tracks, top artists, and recently played tracks via the Spotify Web API
+- Logs into Spotify (my own account) using OAuth and pulls top tracks, top artists, and recently played tracks via the Spotify Web API
 - Compares "last 4 weeks" vs. "all-time" top artists and shows the overlap between them
 - Builds a chart of listening activity by hour of day, using real timestamps from recently played tracks
 - Generates a static site from that data — no live server needed to view it

@@ -1,7 +1,8 @@
 import json
-import base64
-from io import BytesIO
-from pydoc import html
+#not needed but keeping for history as i changed to have static page
+#import base64
+#from io import BytesIO
+#from pydoc import html
 
 import matplotlib
 matplotlib.use("agg") 
@@ -59,8 +60,9 @@ def make_listening_time_chart(data):
 #comparing short term vs long term top artists
 def get_comparison_stat(data):
     short_names = {a["name"] for a in data["top_artists"]["short_term"][:10]}
+    medium_names = {a["name"] for a in data["top_artists"]["medium_term"][:10]}
     long_names = {a["name"] for a in data["top_artists"]["long_term"][:10]}
-    comparison = short_names & long_names  #intersection = names in both
+    comparison = short_names & medium_names & long_names  #intersection = names in both
     return len(comparison), comparison
 
 
@@ -72,6 +74,7 @@ def build():
     data = load_data()
     artists_list = make_top_artists_list_html(data)
     short_term_list = make_top_artists_list_html(data, time_range="short_term")
+    medium_term_list = make_top_artists_list_html(data, time_range="medium_term")
     long_term_list = make_top_artists_list_html(data, time_range="long_term")
     print(long_term_list)    
     comparison_count, comparison_names = get_comparison_stat(data)
@@ -108,12 +111,18 @@ def build():
             <img src="time_chart.png" alt="Listening Chart"/>
             <br>
 
-            <h2>Short term vs Long term Artists</h2>
+            <h2>Short term vs Medium term vs Long term Artists</h2>
 
                 <button id="short-button"
                     onclick="showList('short-term')"
                     style="margin-right: 10px; padding: 8px 16px; background: #1DB954; color: white; border: none; border-radius: 20px; cursor: pointer;">
                     Last 4 Weeks
+                </button>
+
+                <button id="medium-button"
+                    onclick="showList('medium-term')"
+                    style="margin-right: 10px; padding: 8px 16px; background: #333; color: white; border: none; border-radius: 20px; cursor: pointer;">
+                    Last 6 months
                 </button>
 
                 <button id="long-button"
@@ -125,6 +134,9 @@ def build():
                 <div id="short-term" style="display: block;">
                     {short_term_list}
                 </div>
+                <div id="medium-term" style="display: none;">
+                    {medium_term_list}
+                </div>
                 <div id="long-term" style="display: none;">
                     {long_term_list}
                 </div>
@@ -135,7 +147,12 @@ def build():
                 <script>
                     function showList(which) {{
                         document.getElementById('short-term').style.display = (which === 'short-term') ? 'block' : 'none';
+                        document.getElementById('medium-term').style.display = (which === 'medium-term') ? 'block' : 'none';
                         document.getElementById('long-term').style.display = (which === 'long-term') ? 'block' : 'none';
+                        document.getElementById('short-button').style.background = (which === 'short-term') ? '#1DB954' : '#333';
+                        document.getElementById('medium-button').style.background = (which === 'medium-term') ? '#1DB954' : '#333';
+                        document.getElementById('long-button').style.background = (which === 'long-term') ? '#1DB954' : '#333';
+   
                     }}
                 </script>
             </body>

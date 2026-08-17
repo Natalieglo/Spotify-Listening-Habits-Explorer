@@ -3,6 +3,7 @@
 A small Python tool that pulls my own Spotify listening data and builds a static, interactive-feeling dashboard showing listening patterns:
 - top artists, how recent taste compares to medium and all-time favourites, and what time of day I listen most.
 
+Link: https://natalieglo.github.io/Spotify-Listening-Habits-Explorer/
 
 ## What it does
 

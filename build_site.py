@@ -36,7 +36,7 @@ def make_top_tracks_list_html(data, time_range="short_term"):
     tracks = data["top_tracks"][time_range][:10]
 
     items = "".join(
-        f"<li>{i + 1}. {track['name']} : {track['artist']}</li>"
+        f"<li>{i + 1}. {track['name']} - {track['artist']}</li>"
         for i, track in enumerate(tracks)
     )
 
@@ -126,7 +126,9 @@ def build():
     make_listening_time_chart(data)
 
     html = f"""
-        <head><title>My Spotify Listening Explorer</title></head>
+    <head>
+        <meta charset="UTF-8">
+        <title>My Spotify Listening Explorer</title></head>
 
         <style>
                 body {{
@@ -308,7 +310,7 @@ def build():
     </html>
     """
 
-    with open("docs/index.html", "w") as f:
+    with open("docs/index.html", "w", encoding="utf-8") as f:
             f.write(html)
 
             print("Site built into /docs")

@@ -108,7 +108,7 @@ def build():
             <img src="time_chart.png" alt="Listening Chart"/>
             <br>
 
-            <h2>Short term vs Long term (Short Term)</h2>
+            <h2>Short term vs Long term Artists</h2>
 
                 <div>
                     <button onclick="showList('short-term')" style="margin-right: 10px; padding: 8px 16px; background: #1DB954; color: white; border: none; border-radius: 20px; cursor: pointer;">Last 4 Weeks</button>

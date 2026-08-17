@@ -97,10 +97,10 @@ def main():
     #getting new data, comparing it to old tracks using timestamp and adding new tracks
     new_data = get_recently_played()
     old_timestamps = {track["played_at"] for track in existing_history}
-    new_tracks = [track for track in new_data if track["played_recently"] not in old_timestamps]
+    new_tracks = [track for track in new_data if track["played_at"] not in old_timestamps]
 
     #new tracks placed at the top
-    combined_history = new_tracks + existing_history
+    combined_history = (new_tracks + existing_history)[:1000] #add limit so JSON is manageable
              
 
     data = {
@@ -115,7 +115,7 @@ def main():
             "medium_term": get_top_artists("medium_term"),
             "long_term": get_top_artists("long_term"),
         },
-        "recently_played": get_recently_played(),
+        "recently_played": combined_history,
     }
 
     with open("spotify_data.json", "w") as f:

@@ -115,7 +115,7 @@ def build():
     medium_term_tracks = make_top_tracks_list_html(data, time_range="medium_term")
     long_term_tracks = make_top_tracks_list_html(data, time_range="long_term")
 
-    print(long_term_list)
+    #print(long_term_list)
 
     short_artists = [a["name"] for a in data["top_artists"]["short_term"][:10]]
     medium_artists = [a["name"] for a in data["top_artists"]["medium_term"][:10]]
@@ -185,7 +185,7 @@ def build():
                     {long_term_list}
                 </div>
 
-                <p>Total comparison: {comparison_count} artist(s) appear in both</p>
+                <p>{comparison_count} artist(s) appear in all three top 10s</p>
                 
                 <h2>Compare Time Ranges</h2>
 

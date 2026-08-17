@@ -75,8 +75,12 @@ def build():
     comparison_count, comparison_names = get_comparison_stat(data)
 
     make_listening_time_chart(data)
+
+    joined_names = ", ".join(comparison_names) if comparison_count > 0 else "none"
+
     html = f"""
         <head><title>My Spotify Listening Explorer</title></head>
+
         <style>
                 body {{
                     background-color: #121212;
@@ -94,28 +98,39 @@ def build():
         <body style="font-family: sans-serif; text-align: center; padding: 40px;">
             <h1>My Spotify Listening Explorer</h1>
             <br>
+
             <h2>Top Artists</h2>
+            <p style="color: #888;">Data last updated: {data['fetched_at'][:10]}</p>
             {artists_list}
             <br>
 
             <h2>Listening Activity</h2>
-            <img src="time_chart.png" />
+            <img src="time_chart.png" alt="Listening Chart"/>
             <br>
 
             <h2>Short term vs Long term (Short Term)</h2>
-            <p>
-                <strong>Comparison:</strong> {comparison_count} artists appear in both lists.
-            </p>
-            <div style="display: flex; justify-content: center; gap: 40px;">
+
                 <div>
-                    <h3>Short Term</h3>
+                    <button onclick="showList('short-term')" style="margin-right: 10px; padding: 8px 16px; background: #1DB954; color: white; border: none; border-radius: 20px; cursor: pointer;">Last 4 Weeks</button>
+                    <button onclick="showList('long-time')" style="padding: 8px 16px; background: #333; color: white; border: none; border-radius: 20px; cursor: pointer;">All-Time</button>
+                </div>
+
+                <div id="short-term" style="display: block;">
                     {short_term_list}
                 </div>
-                <div>
-                    <h3>Long Term</h3>
+                <div id="long-term" style="display: none;">
                     {artists_list}
                 </div>
             
+                <p>{comparison_count} artist(s) appear in both: {joined_names}</p>
+
+
+                <script>
+                    function showList(which) {{
+                        document.getElementById('short-term').style.display = (which === 'short-term') ? 'block' : 'none';
+                        document.getElementById('long-term').style.display = (which === 'long-term') ? 'block' : 'none';
+                    }}
+                </script>
             </body>
     </html>
     """

@@ -5,7 +5,7 @@ import json
 import os
 from datetime import datetime, timezone
 
-import spotipy
+from spotipy import Spotify
 from dotenv import load_dotenv
 from spotipy.oauth2 import SpotifyOAuth
 
@@ -17,7 +17,7 @@ SCOPE = "user-top-read user-read-recently-played"
 #connection to spotify's API using spotipy library and OAuth authentication
 #SpotifyOAuth handles login and permission
 #cache_path - after first login, the access token is saved in .spotify_cache file, so you don't have to log in again
-sp = spotipy.Spotify(
+sp = Spotify(
     auth_manager=SpotifyOAuth(
         client_id=os.environ["SPOTIFY_CLIENT_ID"],
         client_secret=os.environ["SPOTIFY_CLIENT_SECRET"],
@@ -78,9 +78,30 @@ def get_recently_played():
         })
     return out
 
+
+
 #runs all 3 functions and saves the results to a JSON file (spotify_data.json)
 def main():
     print("Fetching your Spotify data...")
+
+    #updating tracks once in a while
+    existing_history = []
+    if os.path.exists("spotify_data.json"):
+         with open("spotify_data.json", "r",encoding="utf-8") as f:
+            try:
+                old_data = json.load(f)
+                existing_history = old_data.get("recently_played",[])
+            except json.JSONDecodeError:
+                pass # if file is empty/corrupt exception
+
+    #getting new data, comparing it to old tracks using timestamp and adding new tracks
+    new_data = get_recently_played()
+    old_timestamps = {track["played_at"] for track in existing_history}
+    new_tracks = [track for track in new_data if track["played_recently"] not in old_timestamps]
+
+    #new tracks placed at the top
+    combined_history = new_tracks + existing_history
+             
 
     data = {
         "fetched_at": datetime.now(timezone.utc).isoformat(),
@@ -102,6 +123,7 @@ def main():
 
     print(f"Done. Saved {len(data['top_tracks']['long_term'])} long-term top tracks "
           f"and {len(data['recently_played'])} recently played tracks to spotify_data.json")
+
 
 
 if __name__ == "__main__":
